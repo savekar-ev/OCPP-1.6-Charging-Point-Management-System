@@ -5,3 +5,7 @@ node_modules
 /generated/prisma
 logs/
 *.log
+dist/
+.idea
+.vscode
+*.tsbuildinfo

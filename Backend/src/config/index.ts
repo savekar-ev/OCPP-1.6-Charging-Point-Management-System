@@ -18,6 +18,10 @@ export const config = {
   jwtSecret: process.env.JWT_SECRET || "your-jwt-secret-key-change-in-production",
   jwtExpiresIn: process.env.JWT_EXPIRES_IN || "24h",
 
+  // Mobile App JWT (separate secret for RFID users)
+  mobileJwtSecret: process.env.MOBILE_JWT_SECRET || "mobile-jwt-secret-change-in-production",
+  mobileJwtExpiresIn: process.env.MOBILE_JWT_EXPIRES_IN || "7d",
+
   // Logging
   logLevel: process.env.LOG_LEVEL || "info",
 };

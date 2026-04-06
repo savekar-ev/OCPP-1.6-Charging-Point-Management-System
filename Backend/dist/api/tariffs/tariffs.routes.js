@@ -1,12 +1,13 @@
 import { Router } from "express";
 import { getAllTariffs, getTariffById, createTariff, updateTariff, deleteTariff, assignTariffToCharger, removeTariffFromCharger, getTariffChargers, } from "./tariffs.controller.js";
+import { requireAdmin } from "../../middleware/auth.js";
 const router = Router();
 router.get("/", getAllTariffs);
 router.get("/:id", getTariffById);
-router.post("/", createTariff);
-router.put("/:id", updateTariff);
-router.delete("/:id", deleteTariff);
-router.post("/:id/chargers/:chargerId", assignTariffToCharger);
-router.delete("/:id/chargers/:chargerId", removeTariffFromCharger);
+router.post("/", requireAdmin, createTariff);
+router.put("/:id", requireAdmin, updateTariff);
+router.delete("/:id", requireAdmin, deleteTariff);
+router.post("/:id/chargers/:chargerId", requireAdmin, assignTariffToCharger);
+router.delete("/:id/chargers/:chargerId", requireAdmin, removeTariffFromCharger);
 router.get("/:id/chargers", getTariffChargers);
 export default router;

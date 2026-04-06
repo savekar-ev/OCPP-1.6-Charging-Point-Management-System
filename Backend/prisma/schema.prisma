@@ -95,20 +95,22 @@ model Connector {
 
 // RFID tag whitelist
 model RfidUser {
-  rfid_user_id Int      @id @default(autoincrement())
-  rfid_tag     String   @unique
-  name          String
-  email         String?
-  phone         String?
-  company_name  String?
-  address       String?
-  type          String   @default("postpaid")
-  active        Boolean  @default(true)
-  owner_id      Int
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @updatedAt
+  rfid_user_id      Int      @id @default(autoincrement())
+  rfid_tag          String   @unique
+  name              String
+  email             String?
+  phone             String?
+  company_name      String?
+  address           String?
+  type              String   @default("postpaid")
+  active            Boolean  @default(true)
+  owner_id          Int
+  pin               String?  // bcrypt-hashed PIN for mobile app login
+  app_token_version Int      @default(0) // increment on logout to invalidate all tokens
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
 
-  owner      User         @relation(fields: [owner_id], references: [id])
+  owner        User          @relation(fields: [owner_id], references: [id])
   rfidSessions RfidSession[]
 }
 

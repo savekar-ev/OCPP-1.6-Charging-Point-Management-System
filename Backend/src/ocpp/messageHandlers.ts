@@ -23,7 +23,7 @@ export async function logOcppMessage(
       },
       include: { charger: true },
     });
-    
+
     ocppLogsServer.broadcastLog(newLog as any);
   } catch (error) {
     logger.error(`Failed to log OCPP message: ${error}`);
@@ -276,7 +276,7 @@ export async function handleStopTransaction(
       const tariffRate = tariff?.charge || 10; // Default Rs 10/kWh
 
       const energyConsumed = meterStop - (rfidSession.initialMeterValue || 0);
-      const amountDue = (energyConsumed / 1000) * tariffRate * 100; // Convert to paise
+      const amountDue = (energyConsumed / 1000) * tariffRate;
 
       await prisma.rfidSession.update({
         where: { id: rfidSession.id },
@@ -366,12 +366,12 @@ export async function handleStatusNotification(
   try {
     // Update/Create connector status in database
     const connectorName = `Connector ${connectorId}`;
-    
+
     // For connectorId 0 (Charge Point itself), we don't usually create a "Connector" record
     // unless the system design requires it. Here we only handle actual connectors (1+).
     if (connectorId > 0) {
       const existingConnector = await prisma.connector.findFirst({
-        where: { 
+        where: {
           charger_id: chargerId,
           connector_name: connectorName
         }
